@@ -41,7 +41,7 @@
                  timeout_write,
                  timeout_listkeys,
                  timeout_mapreduce
-               }).
+                }).
 
 -define(TIMEOUT_GENERAL, 62*1000).              % Riak PB default + 2 sec
 
@@ -57,13 +57,14 @@
 %% ====================================================================
 
 new(Id) ->
+
     %% Make sure the path is setup such that we can get at riak_client
     case code:which(riakc_pb_socket) of
         non_existing ->
+
             ?FAIL_MSG("~s requires riakc_pb_socket module to be available on code path.\n",
                       [?MODULE]);
-        _ ->
-            ok
+        _ ->            ok
     end,
 
     Ips  = basho_bench_config:get(riakc_pb_ips, [{127,0,0,1}]),
@@ -100,7 +101,7 @@ new(Id) ->
                           timeout_write = get_timeout(pb_timeout_write),
                           timeout_listkeys = get_timeout(pb_timeout_listkeys),
                           timeout_mapreduce = get_timeout(pb_timeout_mapreduce)
-                        }};
+                         }};
         {error, Reason2} ->
             ?FAIL_MSG("Failed to connect riakc_pb_socket to ~p:~p: ~p\n",
                       [TargetIp, TargetPort, Reason2])
@@ -234,7 +235,7 @@ run(mr_keylist_erlang, KeyGen, _ValueGen, State) ->
     mapred(State, Keylist, ?ERLANG_MR);
 run(mr_keylist_js, KeyGen, _ValueGen, State) ->
     Keylist = make_keylist(State#state.bucket, KeyGen,
-                          State#state.keylist_length),
+                           State#state.keylist_length),
     mapred(State, Keylist, ?JS_MR).
 
 %% ====================================================================
